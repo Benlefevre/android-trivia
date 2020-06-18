@@ -16,13 +16,13 @@
 
 package com.example.android.navigation
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.android.navigation.databinding.FragmentGameBinding
 
@@ -97,17 +97,15 @@ class GameFragment : Fragment() {
                         binding.invalidateAll()
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
-                        // TODO (03) Replace the action ID for the game won state with GameFragmentDirections
-                        // GameFragmentDirections.actionGameFragmentToGameWonFragment
-                        // TODO (07) Add the newly-added parameters to the constructor for the Directions
-                        // numQuestions and questionIndex
-                        view.findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
+                        view.findNavController()
+                                .navigate(GameFragmentDirections.actionGameFragmentToGameWonFragment(
+                                        numQuestions,
+                                        questionIndex))
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
-                    // TODO (04) Replace the action ID for the game over state with GameFragmentDirections
-                    // GameFragmentDirections.actionGameFragmentToGameOverFragment
-                    view.findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment)
+                    view.findNavController().navigate(GameFragmentDirections.actionGameFragmentToGameOverFragment())
+
                 }
             }
         }
@@ -129,6 +127,7 @@ class GameFragment : Fragment() {
         answers = currentQuestion.answers.toMutableList()
         // and shuffle them
         answers.shuffle()
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, questionIndex + 1, numQuestions)
+        (activity as AppCompatActivity).supportActionBar?.title =
+                getString(R.string.title_android_trivia_question, questionIndex + 1, numQuestions)
     }
 }
