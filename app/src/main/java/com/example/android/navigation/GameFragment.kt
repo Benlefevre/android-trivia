@@ -16,14 +16,14 @@
 
 package com.example.android.navigation
 
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.android.navigation.databinding.FragmentGameBinding
 
 class GameFragment : Fragment() {
@@ -62,8 +62,11 @@ class GameFragment : Fragment() {
     private var questionIndex = 0
     private val numQuestions = Math.min((questions.size + 1) / 2, 3)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View? {
 
         // Inflate the layout for this fragment
         val binding = DataBindingUtil.inflate<FragmentGameBinding>(
@@ -98,13 +101,13 @@ class GameFragment : Fragment() {
                         binding.invalidateAll()
                     } else {
                         // We've won!  Navigate to the gameWonFragment.
-                        // TODO (05) Find the navController from the view and navigate to the gameWonFragment
+                        findNavController().navigate(R.id.action_gameFragment_to_gameWonFragment)
                         // call view.findNavController
                         // navigate to R.id.action_gameFragment_to_gameWonFragment
                     }
                 } else {
                     // Game over! A wrong answer sends us to the gameOverFragment.
-                    // TODO (06) Find the navController from the view and navigate to the gameOverFragment
+                    findNavController().navigate(R.id.action_gameFragment_to_gameOverFragment2)
                     // call view.findNavController
                     // navigate to R.id.action_gameFragment_to_gameOverFragment
                 }
@@ -128,6 +131,7 @@ class GameFragment : Fragment() {
         answers = currentQuestion.answers.toMutableList()
         // and shuffle them
         answers.shuffle()
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.title_android_trivia_question, questionIndex + 1, numQuestions)
+        (activity as AppCompatActivity).supportActionBar?.title =
+                getString(R.string.title_android_trivia_question, questionIndex + 1, numQuestions)
     }
 }
